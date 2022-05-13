@@ -72,7 +72,7 @@ while (True and not connect4 and not isFullyPopulated(gameBoard)):
         print(i)
     
     try:
-        choice = int(input(f"player: {turn}, what column?"))#gets the choice
+        choice = int(input(f"player {turn}:, what column?"))#gets the choice
         if(choice < 7 and choice >= 0):#if choice is valid, then runs insertPiece function
             turnFinished = insertPiece(turn, choice, gameBoard)
     except ValueError:
