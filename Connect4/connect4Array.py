@@ -50,6 +50,7 @@ def isFullyPopulated(gameBoard):
 #to check if there is a connect 4
 def checkConnect4(gameBoard, currRowCol):
     print("in Connect 4 Check")
+    
 
     
 def checkEdge(gameboard, currRowCol):
