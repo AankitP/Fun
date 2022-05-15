@@ -48,16 +48,53 @@ def isFullyPopulated(gameBoard):
     return True
 
 #to check if there is a connect 4
-def checkConnect4(gameBoard, currRowCol):
+def checkConnect4(gameBoard, currRowCol, currPlayer):
     print("in Connect 4 Check")
-    
 
+    #Horizontal Check
+    print(f"Row {currRowCol[0]}")    
+
+    rowToCheck = gameBoard[currRowCol[0]]
+
+    print(f"Row {rowToCheck}")
+
+    concurrent = 0
+
+    for i in rowToCheck:
+        if (i == currPlayer):       #Used to iterate the concurrent value used to check for connect 4
+            concurrent += 1
+
+        elif (i != currPlayer):     #Used to reset the concurrent value used to check for connect 4
+            concurrent = 0
+        
+        if (concurrent == 4):       #If Connect 4 happens
+                print("Connect 4!!!!")
+                return True
     
+    concurrent = 0                  #is reset after finished with the checks
+
+    #Vertical Check
+    print("Vertical Check")
+
+    concurrent = 0
+
+    #Diagonal Check
+    print("Diagonal Check")
+
 def checkEdge(gameboard, currRowCol):
     if (currRowCol[0] == 0 or currRowCol[1] == 0 or currRowCol[0] == (len(gameBoard)-1) or currRowCol[1] == (len(gameBoard[0])-1)):
         print("Edge")
         return True
     return False
+
+#################################################################################################
+#Checks for the checkConnect4 function
+# def checkConnect4(gameBoard):
+#     testArr1 = [[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,1,1,1,1,0]]
+
+#     checkConnect4(gameBoard, enteredRowCol, turn)
+
+# checkConnect4(gameBoard)
 
 #################################################################################################
 #Game main while
@@ -86,9 +123,12 @@ while (True and not connect4 and not isFullyPopulated(gameBoard)):
         print(enteredRowCol)
         print(turnFinished)
         print(checkEdge(gameBoard, enteredRowCol))
-        sleep(1)
+        
 
-    connect4 = checkConnect4(gameBoard, enteredRowCol)
+    connect4 = checkConnect4(gameBoard, enteredRowCol, turn)
+    sleep(2)
+    if(connect4):
+        sleep(10)
 
     if(turnFinished[0]):#if the turn is finished it changes the player, else, does nothing
         if(turn == 1):
