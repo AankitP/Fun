@@ -7,7 +7,7 @@ DEBUGWHILE = True
 DEBUGCONNECT4CHECK = True
 
 connect4 = False
-turn = 1
+Player= 1
 
 ################################################################################################
 #create Array
@@ -57,7 +57,29 @@ def checkConnect4(gameBoard, currRowCol, currPlayer):
     rowToCheck = gameBoard[currRowCol[0]]
 
     print(f"Row {rowToCheck}")
+    
+    #Horizontal Check
+    if(horizontalCheck(rowToCheck, currPlayer)):
+        return True
 
+    #Vertical Check
+    colToCheck = []
+    for i in gameBoard:
+        colToCheck.append(i[currRowCol[1]])
+
+    print(colToCheck)
+    if(verticalCheck(colToCheck, currPlayer)):
+        return True
+
+    concurrent = 0                  #is reset after finished with the checks
+
+def checkEdge(gameboard, currRowCol):
+    if (currRowCol[0] == 0 or currRowCol[1] == 0 or currRowCol[0] == (len(gameBoard)-1) or currRowCol[1] == (len(gameBoard[0])-1)):
+        print("Edge")
+        return True
+    return False
+
+def horizontalCheck(rowToCheck, currPlayer):
     concurrent = 0
 
     for i in rowToCheck:
@@ -71,28 +93,33 @@ def checkConnect4(gameBoard, currRowCol, currPlayer):
                 print("Connect 4!!!!")
                 return True
     
-    concurrent = 0                  #is reset after finished with the checks
+    return False
 
-    #Vertical Check
-    print("Vertical Check")
+def verticalCheck(colToCheck, currPlayer):
+    print("in Vertical Check")
 
     concurrent = 0
 
-    #Diagonal Check
-    print("Diagonal Check")
+    for i in colToCheck:
+        if (i == currPlayer):       #Used to iterate the concurrent value used to check for connect 4
+            concurrent += 1
 
-def checkEdge(gameboard, currRowCol):
-    if (currRowCol[0] == 0 or currRowCol[1] == 0 or currRowCol[0] == (len(gameBoard)-1) or currRowCol[1] == (len(gameBoard[0])-1)):
-        print("Edge")
-        return True
-    return False
+        elif (i != currPlayer):     #Used to reset the concurrent value used to check for connect 4
+            concurrent = 0
+        
+        if (concurrent == 4):       #If Connect 4 happens
+                print("Connect 4!!!!")
+                return True
+
+def diagonalCheck():
+    print("in Diagonal Check")
 
 #################################################################################################
 #Checks for the checkConnect4 function
 # def checkConnect4(gameBoard):
 #     testArr1 = [[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,1,1,1,1,0]]
 
-#     checkConnect4(gameBoard, enteredRowCol, turn)
+#     checkConnect4(gameBoard, enteredRowCol, Player)
 
 # checkConnect4(gameBoard)
 
@@ -103,38 +130,39 @@ while (True and not connect4 and not isFullyPopulated(gameBoard)):
 
     os.system('cls' if os.name == 'nt' else 'clear')#Clears the terminal
 
-    turnFinished = [False,-1,-1] #used to make sure that the turn is finished
+    PlayerFinished = [False,-1,-1] #used to make sure that the Playeris finished
 
     for i in gameBoard:#prints the board
         print(i)
     
     try:
-        choice = int(input(f"player: {turn}, what column?"))#gets the choice
+        choice = int(input(f"player: {Player}, what column?"))#gets the choice
         if(choice < 7 and choice >= 0):#if choice is valid, then runs insertPiece function
-            turnFinished = insertPiece(turn, choice, gameBoard)
+            PlayerFinished = insertPiece(Player, choice, gameBoard)
     except ValueError:
         sleep(0)
     except KeyboardInterrupt:
         sys.exit(1)
 
-    enteredRowCol = [turnFinished[1],turnFinished[2]]#gets row and column that was just used, and stores in the format [row, column]
+    enteredRowCol = [PlayerFinished[1],PlayerFinished[2]]#gets row and column that was just used, and stores in the format [row, column]
 
     if(DEBUGWHILE):
         print(enteredRowCol)
-        print(turnFinished)
+        print(PlayerFinished)
         print(checkEdge(gameBoard, enteredRowCol))
         
 
-    connect4 = checkConnect4(gameBoard, enteredRowCol, turn)
+    connect4 = checkConnect4(gameBoard, enteredRowCol, Player)
     sleep(2)
+
     if(connect4):
         sleep(10)
 
-    if(turnFinished[0]):#if the turn is finished it changes the player, else, does nothing
-        if(turn == 1):
-            turn = 2
+    if(PlayerFinished[0]):#if the Playeris finished it changes the player, else, does nothing
+        if(Player== 1):
+            Player= 2
         else:
-            turn = 1
+            Player= 1
 
 #################################################################################################
 #Game End
