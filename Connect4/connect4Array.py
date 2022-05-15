@@ -47,8 +47,8 @@ def isFullyPopulated(gameBoard):
                 return False
     return True
 
-#to check if there is a connect 4
-def checkConnect4(gameBoard, currRowCol, currPlayer):
+#The following functions are to check if there is a connect 4
+def checkConnect4(gameBoard, currRowCol, currPlayer):   #Basic Method that is called when checking for connect 4
     print("in Connect 4 Check")
 
     #Horizontal Check
@@ -71,48 +71,67 @@ def checkConnect4(gameBoard, currRowCol, currPlayer):
     if(verticalCheck(colToCheck, currPlayer)):
         return True
 
-    concurrent = 0                  #is reset after finished with the checks
+    #Diagonal Check
+        #The way this diagonal check will work is the same as the previous 2 checks
+            #it will create an array of the diagonal that contains the position of the last
+            #move played, and run the same check as the rest of the checks, will have a better
+            #organized set of methods for this, because there is a great deal of code copy 
+            #pasting.
+    diagonalToCheck = []
 
-def checkEdge(gameboard, currRowCol):
+
+
+    if(diagonalCheck(diagonalToCheck, currPlayer)):
+        return True
+
+    concurrent = 0                                      #is reset after finished with the checks
+
+def checkEdge(gameboard, currRowCol):                   #Checks if an edge piece (will be used later when attemptint to optimize)
     if (currRowCol[0] == 0 or currRowCol[1] == 0 or currRowCol[0] == (len(gameBoard)-1) or currRowCol[1] == (len(gameBoard[0])-1)):
         print("Edge")
         return True
     return False
 
-def horizontalCheck(rowToCheck, currPlayer):
+def horizontalCheck(rowToCheck, currPlayer):            #This is to check if there is a horizontal connect 4 after a turn
     concurrent = 0
 
     for i in rowToCheck:
-        if (i == currPlayer):       #Used to iterate the concurrent value used to check for connect 4
+        if (i == currPlayer):                   #Used to iterate the concurrent value used to check for connect 4
             concurrent += 1
 
-        elif (i != currPlayer):     #Used to reset the concurrent value used to check for connect 4
+        elif (i != currPlayer):                 #Used to reset the concurrent value used to check for connect 4
             concurrent = 0
         
-        if (concurrent == 4):       #If Connect 4 happens
+        if (concurrent == 4):                   #If Connect 4 happens
                 print("Connect 4!!!!")
                 return True
     
     return False
 
-def verticalCheck(colToCheck, currPlayer):
+def verticalCheck(colToCheck, currPlayer):              #This is to check if there is a vertical connect 4 after a turn
     print("in Vertical Check")
 
     concurrent = 0
 
     for i in colToCheck:
-        if (i == currPlayer):       #Used to iterate the concurrent value used to check for connect 4
+        if (i == currPlayer):                   #Used to iterate the concurrent value used to check for connect 4
             concurrent += 1
 
-        elif (i != currPlayer):     #Used to reset the concurrent value used to check for connect 4
+        elif (i != currPlayer):                 #Used to reset the concurrent value used to check for connect 4
             concurrent = 0
         
-        if (concurrent == 4):       #If Connect 4 happens
+        if (concurrent == 4):                   #If Connect 4 happens
                 print("Connect 4!!!!")
                 return True
 
-def diagonalCheck():
+    return False
+
+def diagonalCheck(diagonalToCheck, currPlayer):         #This is to check if there is a Diagonal connect 4 after a turn
     print("in Diagonal Check")
+
+    
+
+    return False
 
 #################################################################################################
 #Checks for the checkConnect4 function
